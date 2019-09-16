@@ -298,11 +298,6 @@ table.table-bordered.dataTable tbody th, table.table-bordered.dataTable tbody td
 
 
 function placebet(wizid){
-   console.log("placebet",wizid);
-
- var wizPower=0;
-   debugger
-
   var bet = $('#'+wizid).val();
   console.log("bet",bet);
 
@@ -312,10 +307,9 @@ function placebet(wizid){
     
   }
   else{
-    place(web3.eth.accounts[0],wizid,bet,parseInt(wizPower/1000000000000),totalPower,wizarray.length,active);
+    App.placeBetOnWizard(web3.eth.accounts[0],wizid,bet,totalPower,wizarray.length,active,parseInt(wizPower/1000000000000),{from: App.account,value: web3.toWei(bet,'ether')});
   }
-
-for(var i=0;i<wizarray.length;i++){
+  
 
   if(wizarray[i].id==wizid){
       wizPower=wizarray[i].power;

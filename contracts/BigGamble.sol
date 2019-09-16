@@ -16,7 +16,7 @@ contract BigGamble {
        
     }
     bettor[] public bettorInfo;
-    event detailsOnLoad(uint wizardId,uint totalBetters,uint wizardTotalBet,uint totalBetAmountPlaced);
+    event detailsOnLoad(uint wizardId,uint totalBetters,uint wizardTotalBet,uint totalBetPlaced);
     // Address of the player and => the user info
     mapping (uint => bettor[]) getInfo;
    
@@ -63,12 +63,12 @@ contract BigGamble {
         emit detailsOnLoad(bInfo.selectedWizardId,bettorInfo.length,totalBetAmountOnThisWizard,totalBetAmountPlaced);
 
     }
-    function calculatePowerRation(uint wizardSOT,uint wizardTOB) public pure returns(uint){
+    function calculateWizardRatio(uint wizardSOT,uint wizardTOB) public pure returns(uint){
         uint tpowerRatio = wizardTOB/wizardSOT;
         return tpowerRatio;
     }
-   
-    function calculateWizardRation(uint wizardPower,uint tPWizards) public pure returns(uint){
+
+    function calculatePowerRatio(uint wizardPower,uint tPWizards) public pure returns(uint){
          uint twizardRatio = tPWizards/wizardPower;
        
         return twizardRatio;
@@ -82,23 +82,24 @@ contract BigGamble {
    
     function calculateTotalBetAmoutnOnThisWizard(uint wizardId) public view returns(uint) {
         uint totalBetOnthisWizard;
-        for (uint i = 0;i< getInfo[wizardId].length;i++){
+        for (uint i = 0;i< getInfo[wizardId].length-1;i++){
          totalBetOnthisWizard += getInfo[wizardId][i].betAmt;
         }
         return totalBetOnthisWizard;
     }
-   
-    function distributePrizeMoney() public payable{
-       
+
+    function distributePrizeMoney(uint wizardId) public payable{
+
         uint total_ether = totalBetAmount; //
         //commision
         uint commision = (total_ether*10)/100;
         //Reward for players to split
         uint total_rewards = total_ether - commision;
-       
-        for (uint i=0;i< bettorInfo.length;i++){
-            uint256 transferAmount = total_rewards*(bettorInfo[i].standardizedBet/bettorInfo[i].sSB);
-            bettorInfo[i].player.transfer(transferAmount*10000000);
+
+        for (uint i=0;i< getInfo[wizardId][i].length-1;i++){
+            uint256 transferAmount = total_rewards*(getInfo[wizardId][i].standardizedBet/getInfo[wizardId][i].sSB);
+          getInfo[wizardId][i].player.transfer(transferAmount*10000000);
+          emit finalWinner(wizardId,transferAmount,getInfo[wizardId][i].player)
         }
         developer.transfer(commision*1000000000000000);
        
