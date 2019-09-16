@@ -22,7 +22,7 @@ contract BigGamble {
     mapping (uint => bettor[]) getInfo;
    
     // address of the developer to receive developer commission.
-    address payable developer = 0xb3e94487b8C4eF9169Ebc2b9672a3222b8df401f;
+    address payable developer = 0x3D368Ece05FaD793f7794e0D79cA349b458271fB;
     constructor() public{
        
     }
