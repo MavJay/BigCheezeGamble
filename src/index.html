@@ -181,7 +181,9 @@ table.table-bordered.dataTable tbody th, table.table-bordered.dataTable tbody td
 
         <img src="/images/loading.svg" style="width: 100px;height: 100px;  position: absolute;top:0; bottom: 0;left: 0;right: 0; margin: auto; "></div>
 
-    
+
+
+
 
         <script type="text/javascript" src="https://code.jquery.com/jquery-3.3.1.js"></script>
        <!--  <script type="text/javascript" src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script> -->
@@ -195,6 +197,8 @@ table.table-bordered.dataTable tbody th, table.table-bordered.dataTable tbody td
     <script type="text/javascript">
 
          var wizarray;
+
+         var pricePool;
 
           $(window).on("load",function() {
             $("#loader").hide();
@@ -247,6 +251,12 @@ table.table-bordered.dataTable tbody th, table.table-bordered.dataTable tbody td
             $("#active_wiz").text("Number of Remaining Wizards in the Tournament: "+active);
             $("#total_power").text(" Total Power of Wizards: "+totalPower);
             
+            }
+
+
+        function updatePrizePool(pricePool){
+            $("#total_prize").text("Total Prize Pool:"+pricePool);
+
             }
 
 
