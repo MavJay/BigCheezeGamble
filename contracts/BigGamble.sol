@@ -2,8 +2,7 @@ pragma solidity >=0.4.22 <0.6.0;
 contract BigGamble {
    
     uint256 public numberOfBets;
-    uint256 public totalBetAmount;
-   
+    uint256 public totalBetAmountPlaced;
     struct bettor {
         uint selectedWizardId;
         address payable player;
@@ -17,8 +16,8 @@ contract BigGamble {
        
     }
     bettor[] public bettorInfo;
-    event detailsOnLoad(uint wizardId,uint totalBetters,uint wizardTotalBet);
-    // Address of the player and => the user info  
+    event detailsOnLoad(uint wizardId,uint totalBetters,uint wizardTotalBet,uint totalBetAmountPlaced);
+    // Address of the player and => the user info
     mapping (uint => bettor[]) getInfo;
    
     // address of the developer to receive developer commission.
@@ -41,7 +40,7 @@ contract BigGamble {
         bettor memory bInfo = bettor(0,address(0),0,0,0,0,0,0,0);
         bInfo.player = userAddress;
         bInfo.betAmt = betAmt;
-        totalBetAmount += betAmt;
+        totalBetAmountPlaced += betAmt;
         bInfo.selectedWizardId = selectedWizard;
         bInfo.wizardPower = wizardPower;
         bInfo.betTimeStamp = now;
@@ -60,9 +59,9 @@ contract BigGamble {
         getInfo[selectedWizard].push(bInfo);
         bettorInfo.push(bInfo);
         uint totalBetAmountOnThisWizard = calculateTotalBetAmoutnOnThisWizard(bInfo.selectedWizardId);
-       
-        emit detailsOnLoad(bInfo.selectedWizardId,bettorInfo.length,totalBetAmountOnThisWizard);
-       
+
+        emit detailsOnLoad(bInfo.selectedWizardId,bettorInfo.length,totalBetAmountOnThisWizard,totalBetAmountPlaced);
+
     }
     function calculatePowerRation(uint wizardSOT,uint wizardTOB) public pure returns(uint){
         uint tpowerRatio = wizardTOB/wizardSOT;
