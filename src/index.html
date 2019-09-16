@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title></title>
+  <title>BIG CHEEZE GAMBLE</title>
+   <link  href="./css/snackbar.min.css" />
   <link href="https://fonts.googleapis.com/css?family=Righteous&display=swap" rel="stylesheet">
   <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.19/css/dataTables.bootstrap4.min.css">
   <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.css">
@@ -170,13 +171,20 @@ table.table-bordered.dataTable tbody th, table.table-bordered.dataTable tbody td
 
         <img src="/images/loading.svg" style="width: 100px;height: 100px;  position: absolute;top:0; bottom: 0;left: 0;right: 0; margin: auto; "></div>
 
+    
+
         <script type="text/javascript" src="https://code.jquery.com/jquery-3.3.1.js"></script>
        <!--  <script type="text/javascript" src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script> -->
        <script type="text/javascript" src="js/datatable.js"></script>
         <script type="text/javascript" src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js"></script>
-        <script type="text/javascript">
+      <script src="./js/snackbar.min.js"></script>
+<script src="js/web3.min.js"></script>
+<script src="js/truffle-contract.js"></script>
+<script src="js/app.js"></script>
 
-         
+    <script type="text/javascript">
+
+         var wizarray;
 
           $(window).on("load",function() {
             $("#loader").hide();
@@ -203,7 +211,7 @@ table.table-bordered.dataTable tbody th, table.table-bordered.dataTable tbody td
                  
            //     console.log(wizarray[i]);
 
-              tableData =tableData +'<tr><td>'+wizarray[i].id+'</td><td>'+parseInt(wizarray[i].power/1000000000000)+'</td> <td>0</td><td>0</td><td><input type="" name=""></td> <td><button class="place_bet_btn"onclick="placebet()">Bet</button></td> </tr>';
+              tableData =tableData +'<tr><td>'+wizarray[i].id+'</td><td>'+parseInt(wizarray[i].power/1000000000000)+'</td> <td>0</td><td>0</td><td><input type="number" name="" id="'+ wizarray[i].id +'"></td> <td><button class="place_bet_btn"onclick="placebet('+ wizarray[i].id +')">Bet</button></td> </tr>';
                
 
             //    console.log(wizarray[i].power,wizarray[i].eliminatedBlockNumber);
@@ -255,6 +263,7 @@ table.table-bordered.dataTable tbody th, table.table-bordered.dataTable tbody td
           // alert(JSON.stringify(data));
 
           inserwizintable(data.wizards);
+          wizarray=data.wizards;
           var count = Object.keys(data).length;
 
           if(data.wizards.length ==0){
@@ -277,13 +286,43 @@ table.table-bordered.dataTable tbody th, table.table-bordered.dataTable tbody td
 
 }
 
+
+function placebet(wizid){
+   console.log("placebet",wizid);
+
+   debugger
+
+  var bet = $('#'+wizid).val();
+  console.log("bet",bet);
+
+  if(bet==""){
+
+     App.snackbarCall("Please enter a bet amount.")
+    console.log(" if amount",bet);
+  }
+  else{
+     App.snackbarCall("Please enter a bet amount.")
+    console.log(" else amount",bet);
+  }
+  
+  place(web3.eth.accounts[0],wizid,bet,totalPower,wizarray.length,active);
+
+
+  // if(amount!=null){
+
+  // }
+  // else{
+  //   App.snackbarCall("Please enter a bet amount.")
+  // }
+ 
+}
+
+function place(address,wizid,bet,totalPower,totalwiz,activewiz){
+
+console.log(address,wizid,bet,totalPower,totalPower,activewiz);
+}
+
 </script>
-
-<script src="js/web3.min.js"></script>
-<script src="js/truffle-contract.js"></script>
-<script src="js/app.js"></script>
-
-
 
 
 </body>
