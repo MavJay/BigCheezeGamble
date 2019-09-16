@@ -229,10 +229,10 @@ table.table-bordered.dataTable tbody th, table.table-bordered.dataTable tbody td
               
                 active++;
 
-
+                totalPower=totalPower+parseInt(wizarray[i].power/1000000000000);
               }
 
-              totalPower=totalPower+parseInt(wizarray[i].power/1000000000000);
+            
 
 
               }
@@ -243,10 +243,10 @@ table.table-bordered.dataTable tbody th, table.table-bordered.dataTable tbody td
             scrollY: 400
           } );
 
-            $("#total_wiz").text("Number of Wizards at the start of Tournament: "+wizarray.length);
-            $("#active_wiz").text("Number of remaining Wizards in the tournament: "+active);
+            $("#total_wiz").text("Number of Wizards at the Start of Tournament: "+wizarray.length);
+            $("#active_wiz").text("Number of Remaining Wizards in the Tournament: "+active);
             $("#total_power").text(" Total Power of Wizards: "+totalPower);
-
+            
             }
 
 
@@ -269,23 +269,26 @@ table.table-bordered.dataTable tbody th, table.table-bordered.dataTable tbody td
           contentType: 'application/json',
           success: function (data) {
           console.log(data);
-          $("#loader").hide();
+          
           // alert(JSON.stringify(data));
 
           inserwizintable(data.wizards);
           wizarray=data.wizards;
-          var count = Object.keys(data).length;
+          $("#loader").hide();
+          // var count = Object.keys(data).length;
 
-          if(data.wizards.length ==0){
-          App.snackbarCall("No wizards available in your wallet, get one to enroll.");
-          }
+          // if(data.wizards.length ==0){
+          // App.snackbarCall("No wizards available in your wallet, get one to enroll.");
+          // }
 
-          else{
-          var joiningFee = '0.1';
+        //   else{
+        //   var joiningFee = '0.1';
        
-          // App.joinTournament(walletAddress,data.wizards[0].id,joiningFee,data.wizards[0].affinity);
-          //App.placeSpells();
-        }
+        //   // App.joinTournament(walletAddress,data.wizards[0].id,joiningFee,data.wizards[0].affinity);
+        //   //App.placeSpells();
+        // }
+
+
       },
       
         error: function(){
@@ -298,18 +301,15 @@ table.table-bordered.dataTable tbody th, table.table-bordered.dataTable tbody td
 
 
 function placebet(wizid){
+   console.log("placebet",wizid);
+
+ var wizPower=0;
+   debugger
+
   var bet = $('#'+wizid).val();
   console.log("bet",bet);
 
-  if($('#'+wizid).val()===""){
-
-     App.snackbarCall("Please enter a bet amount.")
-    
-  }
-  else{
-    App.placeBetOnWizard(web3.eth.accounts[0],wizid,bet,totalPower,wizarray.length,active,parseInt(wizPower/1000000000000),{from: App.account,value: web3.toWei(bet,'ether')});
-  }
-  
+  for(var i=0;i<wizarray.length;i++){
 
   if(wizarray[i].id==wizid){
       wizPower=wizarray[i].power;
@@ -318,6 +318,19 @@ function placebet(wizid){
   }
 
   }
+
+  if($('#'+wizid).val()===""){
+
+     App.snackbarCall("Please enter a bet amount.")
+    
+  }
+  else{
+
+     App.placeBetOnWizard(web3.eth.accounts[0],wizid,bet,totalPower,wizarray.length,active,parseInt(wizPower/1000000000000),{from: App.account,value: web3.toWei(bet,'ether')});
+    // place(web3.eth.accounts[0],wizid,bet,parseInt(wizPower/1000000000000),totalPower,wizarray.length,active);
+  }
+
+
 
 
 
