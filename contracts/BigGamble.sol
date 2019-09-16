@@ -1,6 +1,6 @@
 pragma solidity >=0.4.22 <0.6.0;
 contract BigGamble {
-   
+ 
     uint256 public numberOfBets;
     uint256 public totalBetAmountPlaced;
     struct bettor {
@@ -13,14 +13,15 @@ contract BigGamble {
         uint wizardRatio;
         uint standardizedBet;
         uint sSB;
-       
+        
     }
     bettor[] public bettorInfo;
     event detailsOnLoad(uint wizardId,uint totalBetters,uint wizardTotalBet,uint totalBetPlaced);
+
     event finalWinner(uint wizardId,uint transferAmount,address playerAddress);
     // Address of the player and => the user info
     mapping (uint => bettor[]) getInfo;
-   
+    
     // address of the developer to receive developer commission.
     address payable developer = 0x3D368Ece05FaD793f7794e0D79cA349b458271fB;
     constructor() public{
