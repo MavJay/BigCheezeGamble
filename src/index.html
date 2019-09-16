@@ -1,8 +1,18 @@
 <!DOCTYPE html>
 <html>
 <head>
+
+
+
+
+ <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+   
+
   <title>BIG CHEEZE GAMBLE</title>
-   <link  href="./css/snackbar.min.css" />
+     <link rel="stylesheet" href="./css/snackbar.min.css" />
   <link href="https://fonts.googleapis.com/css?family=Righteous&display=swap" rel="stylesheet">
   <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.19/css/dataTables.bootstrap4.min.css">
   <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.css">
@@ -290,36 +300,40 @@ table.table-bordered.dataTable tbody th, table.table-bordered.dataTable tbody td
 function placebet(wizid){
    console.log("placebet",wizid);
 
+ var wizPower=0;
    debugger
 
   var bet = $('#'+wizid).val();
   console.log("bet",bet);
 
-  if(bet==""){
+  if($('#'+wizid).val()===""){
 
      App.snackbarCall("Please enter a bet amount.")
-    console.log(" if amount",bet);
+    
   }
   else{
-     App.snackbarCall("Please enter a bet amount.")
-    console.log(" else amount",bet);
+    place(web3.eth.accounts[0],wizid,bet,parseInt(wizPower/1000000000000),totalPower,wizarray.length,active);
   }
-  
-  place(web3.eth.accounts[0],wizid,bet,totalPower,wizarray.length,active);
+
+for(var i=0;i<wizarray.length;i++){
+
+  if(wizarray[i].id==wizid){
+      wizPower=wizarray[i].power;
 
 
-  // if(amount!=null){
+  }
 
-  // }
-  // else{
-  //   App.snackbarCall("Please enter a bet amount.")
-  // }
+  }
+
+
+
+
  
 }
 
-function place(address,wizid,bet,totalPower,totalwiz,activewiz){
+function place(address,wizid,bet,wizPower,totalPower,totalwiz,activewiz){
 
-console.log(address,wizid,bet,totalPower,totalPower,activewiz);
+console.log(address,wizid,bet,wizPower,totalPower,totalwiz,activewiz);
 }
 
 </script>
