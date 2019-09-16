@@ -45,8 +45,8 @@ contract BigGamble {
         bInfo.selectedWizardId = selectedWizard;
         bInfo.wizardPower = wizardPower;
         bInfo.betTimeStamp = now;
-        bInfo.powerRation = calculatePowerRatio(wizardSOT,wizardTOB);
-        bInfo.wizardRatio = calculateWizardRatio(wizardPower,tPWizards);
+        bInfo.powerRation = calculatePowerRatio(wizardPower,tPWizards);
+        bInfo.wizardRatio = calculateWizardRatio(wizardSOT,wizardTOB);
         bInfo.standardizedBet = calculateStandardizedBet(betAmt,bInfo.powerRation,bInfo.wizardRatio);
         if (checkPlayerExists(userAddress)){
            
@@ -65,15 +65,15 @@ contract BigGamble {
 
     }
     function calculateWizardRatio(uint wizardSOT,uint wizardTOB) public pure returns(uint){
-        uint tpowerRatio = wizardTOB/wizardSOT;
-        return tpowerRatio;
+        uint twizardRatio = wizardTOB/wizardSOT;
+        return twizardRatio;
     }
 
     function calculatePowerRatio(uint wizardPower,uint tPWizards) public pure returns(uint){
-         uint twizardRatio = tPWizards/wizardPower;
-       
-        return twizardRatio;
-       
+         uint tpowerRatio = tPWizards/wizardPower;
+
+        return tpowerRatio;
+
     }
    
     function calculateStandardizedBet(uint betAmt,uint powerRatio,uint wizardRatio) public pure returns(uint){

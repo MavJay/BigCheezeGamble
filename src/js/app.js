@@ -225,14 +225,15 @@ App = {
                 updatePrizePool(pricePool);
             });
             }
-            //
-            // var matchFixture = maininstance.match_fixture({}, {fromBlock:'latest', toBlock: 'latest'});
-            //     if (playercount_event != undefined){
-            //   matchFixture.watch(function(error, result){
-            //     // var playerCount = result.args.count.valueOf();
-            //     alert(result);
-            // })
-            // }
+
+            var finalWinner = maininstance.finalWinner({}, {fromBlock:'latest', toBlock: 'latest'});
+                if (finalWinner != undefined){
+              finalWinner.watch(function(error, result){
+                var winingWizard = result.args.wizardId.valueOf();
+                var winingAmount = result.args.transferAmount.valueOf();
+                var winnerAddress = result.args.playerAddress.valueOf();
+            })
+            }
 
           });
         }else{
