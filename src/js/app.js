@@ -220,8 +220,10 @@ App = {
                 var totalBetAmountPlaced = result.args.totalBetPlaced.valueOf();
                 var totalNoOfBetPlaced = result.args.totalBetters.valueOf();
                 var totalBetPlacedOnSelected = result.args.wizardTotalBet.valueOf();
+                pricePool=totalBetAmountPlaced;
                 alert("Players in Tornament"+selectedWizard,totalBetAmountPlaced,totalNoOfBetPlaced,totalBetPlacedOnSelected);
-            })
+                updatePrizePool(pricePool);
+            });
             }
             //
             // var matchFixture = maininstance.match_fixture({}, {fromBlock:'latest', toBlock: 'latest'});
@@ -246,8 +248,8 @@ App = {
   },
   placeBetOnWizard:function(playerAddress,wizardId,betAmt,wizardPower,tPWizards,wizardSOT,wizardTOB){
     debugger
-      maininstance.checkPlayerExists(playerAddress).then(function(bool){
-        if(!bool){
+      // maininstance.checkPlayerExists(playerAddress).then(function(bool){
+      //   if(!bool){
           App.snackbarCall("Please confirm your transaction");
            maininstance.joinTournamentByBet(playerAddress,wizardId,betAmt,wizardPower,tPWizards,wizardSOT,wizardTOB,{from: App.account,value: web3.toWei(betAmt,'ether')}).then(function(acc,error){
             if(!error){
@@ -265,10 +267,10 @@ App = {
             }
 
           });
-        } else {
+       //  } else {
     
-        }
-      });
+       //  }
+       // });
   },
 };
 
