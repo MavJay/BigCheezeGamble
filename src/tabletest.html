@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+ <link href="https://fonts.googleapis.com/css?family=Righteous&display=swap" rel="stylesheet">
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.19/css/dataTables.bootstrap4.min.css">
+<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.css">
+
+<style type="text/css">
+	
+	body,html{
+	width:100%;
+	height: 100%;
+	font-family: 'Righteous';
+	/*background: #ffff85;*/
+}
+	.navbar {
+    background-color: #ffef37 !important;
+    font-family: 'Righteous';
+   width: 100% !important;
+/*    position: fixed;*/
+    min-height: 80px;
+    top: 0;
+  
+}
+
+#cw_logo{
+
+width: 100px;
+height: 50px;
+
+}
+
+#tournament_name{
+	text-align: center;
+	vertical-align: middle;
+
+    font-family: 'Righteous';
+    font-size: 24px;
+
+    width: 90%;
+    height: 80px;
+
+    display: block;  line-height:80px;
+
+}
+
+.details_container{
+	max-width: 90%;
+	min-height: 60px;
+	
+/*	background: #ffc033;*/
+	margin: auto;
+	right: 0;
+	left: 0;
+	margin-top: 10px;
+	
+
+
+}
+
+.details_container .row {
+
+	text-align: center;
+	align-content: center;
+		min-height: 60px;
+	
+	background-image: radial-gradient(circle, #ffff85, #ffd45a);
+}
+#table_container{
+	max-width: 90%;
+	right: 0;
+	left: 0;
+	margin: auto;
+/*	max-height: 60%*/
+background : #fff;
+}
+
+.place_bet_btn{
+	min-width: 100px;
+	min-height: 50px;
+	background: #ffd45a;
+}
+
+#wiztable_wrapper{
+	margin-top: 20px;
+}
+</style>
+</head>
+<body>
+
+   <nav class="navbar navbar-expand-md bg-light navbar-light">
+      <!-- Brand -->
+      <a class="navbar-brand" href="#">
+        <img src="./images/full_logo.svg" alt="logo" id="cw_logo">
+      </a>
+      <div id="tournament_name">BIG CHEEZE GAMBLE</div>
+
+    </nav>
+
+<div class="details_container">
+  <div class="row">
+    <div class="col">
+    Number of Wizards at the start of Tournament: 10
+    </div>
+    <div class="col">
+     No. of remaining Wizards in the tournament: 8
+    </div>
+    <div class="col">
+     Total Power (current): 567
+    </div>
+  </div>
+</div>
+<div id="table_container">
+
+<table id="wiztable" class="table table-striped table-bordered" style="width:100%">
+        <thead>
+            <tr>
+                <th>Wizard ID</th>
+                <th>Power</th>
+                <th>Total amount bet on Wizard</th>
+                <th>Number of Bettors on Wizard</th>
+                <th>Bet amount (in ETH)</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+          
+            <tr>
+                <td>1234</td>
+                <td>216</td>
+                <td>5.5</td>
+                <td>3</td>
+                <td><input type="" name=""></td>
+                <td><button class="place_bet_btn">Bet</button></td>
+            </tr>
+
+
+            <tr>
+                <td>1134</td>
+                <td>216</td>
+                <td>5.5</td>
+                <td>3</td>
+                <td><input type="" name=""></td>
+                <td><button class="place_bet_btn">Bet</button></td>
+            </tr>
+
+
+            <tr>
+                <td>1234</td>
+                <td>216</td>
+                <td>5.5</td>
+                <td>3</td>
+                <td><input type="" name=""></td>
+                <td><button class="place_bet_btn">Bet</button></td>
+            </tr>
+
+
+            <tr>
+                <td>1234</td>
+                <td>216</td>
+                <td>5.5</td>
+                <td>3</td>
+                <td><input type="" name=""></td>
+                <td><button class="place_bet_btn">Bet</button></td>
+            </tr>
+
+
+            <tr>
+                <td>1234</td>
+                <td>216</td>
+                <td>5.5</td>
+                <td>3</td>
+                <td><input type="" name=""></td>
+                <td><button class="place_bet_btn">Bet</button></td>
+            </tr>
+        </tbody>
+      <!--   <tfoot>
+            <tr>
+                <th>Name</th>
+                <th>Position</th>
+                <th>Office</th>
+                <th>Age</th>
+                <th>Start date</th>
+                <th>Salary</th>
+            </tr>
+        </tfoot> -->
+    </table>
+
+
+
+</div>
+
+
+
+<script type="text/javascript" src="https://code.jquery.com/jquery-3.3.1.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js"></script>
+<script type="text/javascript">
+	
+	$('#wiztable').DataTable( {
+    scrollY: 400
+} );
+
+</script>
+</body>
+</html>

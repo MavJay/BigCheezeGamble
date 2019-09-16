@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title></title>
+  <link href="https://fonts.googleapis.com/css?family=Righteous&display=swap" rel="stylesheet">
+  <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.19/css/dataTables.bootstrap4.min.css">
+  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.css">
+
+  <style type="text/css">
+
+    body,html{
+      width:100%;
+      height: 100%;
+      font-family: 'Righteous';
+      /*background: #ffff85;*/
+    }
+    .navbar {
+      background-color: #ffd45a !important;
+      font-family: 'Righteous';
+      width: 100% !important;
+      /*    position: fixed;*/
+      min-height: 80px;
+      top: 0;
+
+    }
+
+    #cw_logo{
+
+      width: 100px;
+      height: 50px;
+      background-color: #ffef37 !important;
+
+    }
+
+    #tournament_name{
+      text-align: center;
+      vertical-align: middle;
+
+      font-family: 'Righteous';
+      font-size: 24px;
+
+      width: 90%;
+      height: 80px;
+
+      display: block;  line-height:80px;
+
+    }
+
+    .details_container{
+      max-width: 90%;
+      min-height: 60px;
+
+      /*  background: #ffc033;*/
+      margin: auto;
+      right: 0;
+      left: 0;
+      margin-top: 10px;
+
+
+
+    }
+
+    .details_container .row {
+
+      text-align: center;
+      align-content: center;
+      min-height: 60px;
+
+      background-image: radial-gradient(circle, #ffff85, #ffd45a);
+    }
+    #table_container{
+      max-width: 90%;
+      right: 0;
+      left: 0;
+      margin: auto;
+      /*  max-height: 60%*/
+      background : #fff;
+    }
+
+    .place_bet_btn{
+      min-width: 100px;
+      min-height: 50px;
+      background: #ffef37;
+    }
+
+    #wiztable_wrapper{
+      margin-top: 20px;
+    }
+
+
+.page-item.active .page-link {
+   
+    background-color: #ffd45a !important;
+    border-color: #ffd45a !important;
+}
+
+.page-link {
+  color: #000 !important;
+}
+
+table.table-bordered.dataTable tbody th, table.table-bordered.dataTable tbody td {
+    border-bottom-width: 0;
+    text-align: center;
+    vertical-align: middle;
+}
+
+</style>
+</head>
+<body>
+
+ <nav class="navbar navbar-expand-md bg-light navbar-light">
+  <!-- Brand -->
+  <a class="navbar-brand" href="#">
+    <img src="./images/full_logo.svg" alt="logo" id="cw_logo">
+  </a>
+  <div id="tournament_name">BIG CHEEZE GAMBLE</div>
+
+</nav>
+
+<div class="details_container">
+  <div class="row">
+    <div class="col" id="total_wiz">
+      Number of Wizards at the tart of Tournament: -
+    </div>
+    <div class="col" id="active_wiz">
+     Number of Remaining Wizards in the Tournament: -
+   </div>
+   <div class="col" id="total_power">
+     Total Power of Wizards: -
+   </div>
+    <div class="col" id="total_prize">
+     Total Prize Pool: -
+   </div>
+ </div>
+</div>
+<div id="table_container">
+
+  <table id="wiztable" class="table table-striped table-bordered" style="width:100%">
+    <thead>
+      <tr>
+        <th>Wizard ID</th>
+        <th>Power</th>
+        <th>Total amount bet on Wizard</th>
+        <th>Number of Bettors on Wizard</th>
+        <th>Bet amount (in ETH)</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody id="textip">
+
+
+    </tbody>
+      <!--   <tfoot>
+            <tr>
+                <th>Name</th>
+                <th>Position</th>
+                <th>Office</th>
+                <th>Age</th>
+                <th>Start date</th>
+                <th>Salary</th>
+            </tr>
+          </tfoot> -->
+        </table>
+
+
+
+      </div>
+
+      <div id="loader" style="width: 100%;height: 100%; position: absolute;  top:0; bottom: 0; left: 0; right: 0; margin: auto; background-color:rgba(0, 0, 0, 0.5);">
+
+        <img src="/images/loading.svg" style="width: 100px;height: 100px;  position: absolute;top:0; bottom: 0;left: 0;right: 0; margin: auto; "></div>
+
+        <script type="text/javascript" src="https://code.jquery.com/jquery-3.3.1.js"></script>
+       <!--  <script type="text/javascript" src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script> -->
+       <script type="text/javascript" src="js/datatable.js"></script>
+        <script type="text/javascript" src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js"></script>
+        <script type="text/javascript">
+
+         
+
+          $(window).on("load",function() {
+            $("#loader").hide();
+            getwizdetails();
+          });
+          // let wizarray =[];
+          // var wiz1= {affinity: 2, createdBlockNumber: 5083248, eliminatedBlockNumber: null, id: "5999",
+          // initialPower: "71936048742570", owner:"0xA1b02d8c67b0FDCF4E379855868DeB470E169cfB", power: "71936048742570"}
+
+
+          // for(var i=0;i<10;i++){
+          //   wizarray.push(wiz1);
+          // }
+
+          // console.log(wizarray);
+
+            var tableData="";
+            var active=0;
+            var totalPower =0;
+            function inserwizintable(wizarray){
+             
+          //      console.log(wizarray.length);
+              for(var i=0;i<wizarray.length;i++){
+                 
+           //     console.log(wizarray[i]);
+
+              tableData =tableData +'<tr><td>'+wizarray[i].id+'</td><td>'+parseInt(wizarray[i].power/1000000000000)+'</td> <td>0</td><td>0</td><td><input type="" name=""></td> <td><button class="place_bet_btn"onclick="placebet()">Bet</button></td> </tr>';
+               
+
+            //    console.log(wizarray[i].power,wizarray[i].eliminatedBlockNumber);
+              if(wizarray[i].power>0 && wizarray[i].eliminatedBlockNumber==null){
+              
+                active++;
+
+
+              }
+
+              totalPower=totalPower+parseInt(wizarray[i].power/1000000000000);
+
+
+              }
+
+            //  console.log(tableData);
+              $("#textip").append(tableData);
+               $('#wiztable').DataTable( {
+            scrollY: 400
+          } );
+
+            $("#total_wiz").text("Number of Wizards at the start of Tournament: "+wizarray.length);
+            $("#active_wiz").text("Number of remaining Wizards in the tournament: "+active);
+            $("#total_power").text(" Total Power of Wizards: "+totalPower);
+
+            }
+
+
+      function getwizdetails(){
+
+        var apiToken="SWNXMHPV76I52TGX4vkmp3QkVgje5B8H78KNQthv";
+        var apiEmail="muthukumaresh@vijayasekar.com";
+           // var walletAddress ="0xa20a319098BF993eA6Cc93922c9b001F1A3dd7Db";
+        var walletAddress ="0xc92a2167a1f788a468665e292ea4038d7a9928dd";
+        $("#loader").show();
+        $.ajax({
+    // url: "https://cheezewizards-rinkeby.alchemyapi.io/wizards?owner="+walletAddress,
+          url: "https://cheezewizards-rinkeby.alchemyapi.io/wizards",
+          beforeSend: function(xhr) { 
+          xhr.setRequestHeader("x-api-token", apiToken); 
+          xhr.setRequestHeader("x-email",apiEmail);
+          xhr.setRequestHeader("contentType","application/json");
+        },
+          type: 'GET',
+          contentType: 'application/json',
+          success: function (data) {
+          console.log(data);
+          $("#loader").hide();
+          // alert(JSON.stringify(data));
+
+          inserwizintable(data.wizards);
+          var count = Object.keys(data).length;
+
+          if(data.wizards.length ==0){
+          App.snackbarCall("No wizards available in your wallet, get one to enroll.");
+          }
+
+          else{
+          var joiningFee = '0.1';
+       
+          // App.joinTournament(walletAddress,data.wizards[0].id,joiningFee,data.wizards[0].affinity);
+          //App.placeSpells();
+        }
+      },
+      
+        error: function(){
+          $("#loader").hide();
+          alert("Cannot get data");
+      }
+  });
+
+}
+
+</script>
+
+<script src="js/web3.min.js"></script>
+<script src="js/truffle-contract.js"></script>
+<script src="js/app.js"></script>
+
+
+
+
+</body>
+</html>
