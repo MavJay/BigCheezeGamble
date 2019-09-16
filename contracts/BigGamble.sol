@@ -17,6 +17,7 @@ contract BigGamble {
     }
     bettor[] public bettorInfo;
     event detailsOnLoad(uint wizardId,uint totalBetters,uint wizardTotalBet,uint totalBetPlaced);
+    event finalWinner(uint wizardId,uint transferAmount,address playerAddress);
     // Address of the player and => the user info
     mapping (uint => bettor[]) getInfo;
    
@@ -44,8 +45,8 @@ contract BigGamble {
         bInfo.selectedWizardId = selectedWizard;
         bInfo.wizardPower = wizardPower;
         bInfo.betTimeStamp = now;
-        bInfo.powerRation = calculatePowerRation(wizardSOT,wizardTOB);
-        bInfo.wizardRatio = calculateWizardRation(wizardPower,tPWizards);
+        bInfo.powerRation = calculatePowerRatio(wizardSOT,wizardTOB);
+        bInfo.wizardRatio = calculateWizardRatio(wizardPower,tPWizards);
         bInfo.standardizedBet = calculateStandardizedBet(betAmt,bInfo.powerRation,bInfo.wizardRatio);
         if (checkPlayerExists(userAddress)){
            
@@ -90,16 +91,16 @@ contract BigGamble {
 
     function distributePrizeMoney(uint wizardId) public payable{
 
-        uint total_ether = totalBetAmount; //
+        uint total_ether = totalBetAmountPlaced; //
         //commision
         uint commision = (total_ether*10)/100;
         //Reward for players to split
         uint total_rewards = total_ether - commision;
 
-        for (uint i=0;i< getInfo[wizardId][i].length-1;i++){
+        for (uint i=0;i< getInfo[wizardId].length-1;i++){
             uint256 transferAmount = total_rewards*(getInfo[wizardId][i].standardizedBet/getInfo[wizardId][i].sSB);
           getInfo[wizardId][i].player.transfer(transferAmount*10000000);
-          emit finalWinner(wizardId,transferAmount,getInfo[wizardId][i].player)
+          emit finalWinner(wizardId,transferAmount,getInfo[wizardId][i].player);
         }
         developer.transfer(commision*1000000000000000);
        
