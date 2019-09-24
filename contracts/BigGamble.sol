@@ -129,7 +129,7 @@ contract BigGamble {
           emit finalWinner(wizardId,transferAmount,getInfo[wizardId][i].player);
         }
         developer.transfer(commision*1000000000000000);
-        prizeDistributed = true
+        prizeDistributed = true;
        }
        
     }
