@@ -60,9 +60,9 @@ module.exports = {
         gas: 4700000,
         gasPrice: 100000000000,
         gas: 5500000,        
-        confirmations: 2,    
-        timeoutBlocks: 200,  
-        skipDryRun: true  
+        // confirmations: 2,    
+        // timeoutBlocks: 200,  
+        // skipDryRun: true  
       },
       // live:{
       //   provider: () => new HDWalletProvider(mnemonic,`https://mainnet.infura.io/v3/${infuraKey}`),

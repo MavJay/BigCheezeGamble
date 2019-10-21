@@ -168,6 +168,7 @@ App = {
                 console.log("mybetarray", mybetsArray);
 
                 updatetable(temp);
+                resetTable();
             });
             }
 
