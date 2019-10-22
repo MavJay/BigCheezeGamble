@@ -1,46 +1,5 @@
 pragma solidity >=0.4.22 <0.6.0;
-
-contract MultiOwnable {
-  address public root;
-  mapping (address => address) public owners; // owner => parent of owner
-  
-  /**
-  * @dev The Ownable constructor sets the original `owner` of the contract to the sender
-  * account.
-  */
-  constructor() public {
-    root = msg.sender;
-    owners[root] = root;
-  }
-  
-  /**
-  * @dev Throws if called by any account other than the owner.
-  */
-  modifier onlyOwner() {
-    require(owners[msg.sender] != address(0));
-    _;
-  }
-  
-  /**
-  * @dev Adding new owners
-  * Note that the "onlyOwner" modifier is missing here.
-  */ 
-  function newOwner(address _owner) onlyOwner external returns (bool) {
-    require(_owner != address(0));
-    owners[_owner] = msg.sender;
-    return true;
-  }
-  
-  /**
-    * @dev Deleting owners
-    */
-  function deleteOwner(address _owner) onlyOwner external returns (bool) {
-    require(owners[_owner] == msg.sender || (owners[_owner] != address(0) && msg.sender == root));
-    owners[_owner] = address(0);
-    return true;
-  }
-}
-contract BigGamble is MultiOwnable{
+contract BigGamble{
 
     bool public prizeDistributed = false;
  
@@ -202,7 +161,7 @@ contract BigGamble is MultiOwnable{
        }
        return sumOfAllSsb;
    }
-   
+   /*
    function returnTournamentWinnerAddress(uint256 wizardId) public view returns(address[] memory , uint[] memory, bool[] memory){
     
     uint sumOfAllSsb = calculateSsbFromTournamentWinningWizard(wizardId);
@@ -239,7 +198,7 @@ contract BigGamble is MultiOwnable{
     winnerAddresses.push(msg.sender);
     return true;
 }
-
+*/
     function getContractBalance() public returns(uint256)
     {
         uint256 contractbalval = address(this).balance;//retuns wei
@@ -251,9 +210,9 @@ contract BigGamble is MultiOwnable{
         }
     }
 
-/*
+
     function distributePrizeMoney(uint256 wizardId) public payable{
-     
+     require(developer == msg.sender);
      uint sumOfAllSsb = calculateSsbFromTournamentWinningWizard(wizardId);   
     if (getInfo[wizardId].length == 0){
          uint total_ether = totalBetAmountPlaced*1000000000000000000;
@@ -284,7 +243,7 @@ contract BigGamble is MultiOwnable{
     }
        
     }
-   */
+   
     function getAllInfoOfAUser(address playerAddress) public 
 	{   
        for (uint i = 0;i< bettorInfo.length;i++){
