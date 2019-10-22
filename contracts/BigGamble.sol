@@ -1,9 +1,51 @@
 pragma solidity >=0.4.22 <0.6.0;
-contract BigGamble {
+
+contract MultiOwnable {
+  address public root;
+  mapping (address => address) public owners; // owner => parent of owner
+  
+  /**
+  * @dev The Ownable constructor sets the original `owner` of the contract to the sender
+  * account.
+  */
+  constructor() public {
+    root = msg.sender;
+    owners[root] = root;
+  }
+  
+  /**
+  * @dev Throws if called by any account other than the owner.
+  */
+  modifier onlyOwner() {
+    require(owners[msg.sender] != address(0));
+    _;
+  }
+  
+  /**
+  * @dev Adding new owners
+  * Note that the "onlyOwner" modifier is missing here.
+  */ 
+  function newOwner(address _owner) onlyOwner external returns (bool) {
+    require(_owner != address(0));
+    owners[_owner] = msg.sender;
+    return true;
+  }
+  
+  /**
+    * @dev Deleting owners
+    */
+  function deleteOwner(address _owner) onlyOwner external returns (bool) {
+    require(owners[_owner] == msg.sender || (owners[_owner] != address(0) && msg.sender == root));
+    owners[_owner] = address(0);
+    return true;
+  }
+}
+contract BigGamble is MultiOwnable{
 
     bool public prizeDistributed = false;
  
     uint256 public numberOfBets;
+    uint256 public ethToWei = 1000000000000000000;
     uint256 public totalBetAmountPlaced;
     struct bettor {
         uint selectedWizardId;
@@ -17,47 +59,56 @@ contract BigGamble {
         uint sSB;
        
     }
-    bettor[] public bettorInfo;
+    bettor[] private bettorInfo;
+    
+    struct winnerDetails {
+        bool claimStatus;
+        address payable winnerAddress;
+        uint winningAmt;
+    }
+   // winnerDetails[] public winnerDets;
+    mapping (address => winnerDetails) private winnerInfo;
+    address[] private winnerAddresses;
     event detailsOnLoad(uint wizardId,uint totalBetters,uint wizardTotalBet,uint totalBetPlaced,address player, uint betAmountOnwizard);
 
     event finalWinner(uint wizardId,uint transferAmount,address playerAddress);
    
     event returnValue(uint remainder,uint quotient);
     // Address of the player and => the user info
-    mapping (uint => bettor[]) getInfo;
+    mapping (uint => bettor[]) private getInfo;
 
     event throwWizardInfo(uint wizardId,uint wizardTotalBet);
     // address of the developer to receive developer commission.
-    address payable developer = 0x0334056F1da1F415BF410afBBcb087f120a5aBe0;
+    address payable private developer = 0x14723A09ACff6D2A60DcdF7aA4AFf308FDDC160C;
     constructor() public{
        
     }
 
-function mul(uint256 a, uint256 b) internal pure returns (uint256) 
-{
-uint256 c = a * b;
-require(a == 0 || c / a == b);
-return c;
-}
-function div(uint256 a, uint256 b) internal pure returns (uint256) 
-{
-// assert(b > 0); // Solidity automatically throws when dividing by 0
-require(b>0);
-uint256 c = a / b;
-// assert(a == b * c + a % b); // There is no case in which this doesn't hold
-return c;
-}
-function sub(uint256 a, uint256 b) internal pure returns (uint256) 
-{
-assert(b <= a);
-return a - b;
-}
-function add(uint256 a, uint256 b) internal pure returns (uint256) 
-{
-uint256 c = a + b;
-require(c >= a);
-return c;
-}
+    function mul(uint256 a, uint256 b) internal pure returns (uint256) 
+    {
+    uint256 c = a * b;
+    require(a == 0 || c / a == b);
+    return c;
+    }
+    function div(uint256 a, uint256 b) internal pure returns (uint256) 
+    {
+    // assert(b > 0); // Solidity automatically throws when dividing by 0
+    require(b>0);
+    uint256 c = a / b;
+    // assert(a == b * c + a % b); // There is no case in which this doesn't hold
+    return c;
+    }
+    function sub(uint256 a, uint256 b) internal pure returns (uint256) 
+    {
+    assert(b <= a);
+    return a - b;
+    }
+    function add(uint256 a, uint256 b) internal pure returns (uint256) 
+    {
+    uint256 c = a + b;
+    require(c >= a);
+    return c;
+    }
 
     function checkPlayerExists(address playerAddress) public view returns(bool){
       for(uint256 i = 0; i < bettorInfo.length; i++){
@@ -111,7 +162,9 @@ return c;
 
          // caution, check safe-to-multiply here
 	uint256 pre = add(precision,1);
-	uint256 Exponentiation= 10**pre;
+//	require(pre > 0);
+	uint256 mulNo = 10;
+	uint256 Exponentiation= mulNo**uint256(pre);
 	uint _numerator  = mul(numerator,Exponentiation);
         // with rounding of last digit
 	uint256 div_numerator = div(_numerator , denominator);
@@ -141,28 +194,97 @@ return c;
         }
         return totalBetOnthisWizard;
     }
+   function calculateSsbFromTournamentWinningWizard(uint wizardId) public view returns(uint) {
+       
+       uint sumOfAllSsb;
+       for (uint i=0;i< getInfo[wizardId].length;i++){
+          sumOfAllSsb += getInfo[wizardId][i].standardizedBet;
+       }
+       return sumOfAllSsb;
+   }
    
+   function returnTournamentWinnerAddress(uint256 wizardId) public view returns(address[] memory , uint[] memory, bool[] memory){
+    
+    uint sumOfAllSsb = calculateSsbFromTournamentWinningWizard(wizardId);
+    uint total_ether = totalBetAmountPlaced*ethToWei; //
+        //commision
+        uint commision = (total_ether*10)/100;
+        //Reward for players to split
+        uint total_rewards = total_ether - commision;
+    
+    address[] memory addrs = new address[](getInfo[wizardId].length);
+    uint[] memory winningAmt = new uint[](getInfo[wizardId].length);
+    bool[] memory claimStatusChk = new bool[](getInfo[wizardId].length);
+    
+    for (uint i=0;i<getInfo[wizardId].length;i++){
+            require(getInfo[wizardId][i].standardizedBet > 0);
+            uint256 getActualAmt = percent(getInfo[wizardId][i].standardizedBet,sumOfAllSsb,2);
+            uint256 transferAmount = total_rewards*getActualAmt/100;
+            addrs[i] = getInfo[wizardId][i].player;
+            winningAmt[i] = transferAmount;
+            claimStatusChk[i] = winnerInfo[addrs[i]].claimStatus;
+    //      getInfo[wizardId][i].player.transfer(transferAmount);
+       //   emit finalWinner(wizardId,transferAmount,getInfo[wizardId][i].player);
+        }
+    return (addrs, winningAmt, claimStatusChk);
+       
+   }
+   
+   function withdrawFunds(uint winningAmt,uint userbalance, address payable winnerPlayerAdrs) public onlyOwner payable returns(bool success) {   
+    require(userbalance >= winningAmt); // guards up front
+    // balances[msg.sender] -= amount;         // optimistic accounting
+    winnerPlayerAdrs.transfer(winningAmt);            // transfer
+    winnerInfo[msg.sender].claimStatus = true;
+    winnerInfo[msg.sender].winnerAddress = msg.sender;
+    winnerAddresses.push(msg.sender);
+    return true;
+}
 
-    function distributePrizeMoney(uint wizardId) public payable{
+    function getContractBalance() public returns(uint256)
+    {
+        uint256 contractbalval = address(this).balance;//retuns wei
+        if(contractbalval>0){
+            developer.transfer(contractbalval);
+            return contractbalval;
+        }else{
+            return 0;
+        }
+    }
 
-        if (!prizeDistributed){
-        uint total_ether = totalBetAmountPlaced; //
+/*
+    function distributePrizeMoney(uint256 wizardId) public payable{
+     
+     uint sumOfAllSsb = calculateSsbFromTournamentWinningWizard(wizardId);   
+    if (getInfo[wizardId].length == 0){
+         uint total_ether = totalBetAmountPlaced*1000000000000000000;
+        developer.transfer(total_ether);
+        prizeDistributed = true;
+    }
+    else{
+         if (!prizeDistributed){
+             
+        // uint sumOfAllSsb = calculateSsbFromTournamentWinningWizard(wizardId);
+        uint total_ether = totalBetAmountPlaced*1000000000000000000; //
         //commision
         uint commision = (total_ether*10)/100;
         //Reward for players to split
         uint total_rewards = total_ether - commision;
 
-        for (uint i=0;i< getInfo[wizardId].length-1;i++){
-            uint256 transferAmount = total_rewards*(getInfo[wizardId][i].standardizedBet/getInfo[wizardId][i].sSB);
-          getInfo[wizardId][i].player.transfer(transferAmount*10000000);
+        for (uint i=0;i<getInfo[wizardId].length;i++){
+            require(getInfo[wizardId][i].standardizedBet > 0);
+            uint256 getActualAmt = percent(getInfo[wizardId][i].standardizedBet,sumOfAllSsb,2);
+            uint256 transferAmount = total_rewards*getActualAmt/100;
+          getInfo[wizardId][i].player.transfer(transferAmount);
           emit finalWinner(wizardId,transferAmount,getInfo[wizardId][i].player);
         }
-        developer.transfer(commision*1000000000000000);
+        developer.transfer(commision);
+        
         prizeDistributed = true;
-       }
+      }
+    }
        
     }
-   
+   */
     function getAllInfoOfAUser(address playerAddress) public 
 	{   
        for (uint i = 0;i< bettorInfo.length;i++){
