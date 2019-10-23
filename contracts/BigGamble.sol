@@ -111,18 +111,13 @@ contract BigGamble{
         return twizardRatio;
     }
 
-    function getDivided(uint numerator, uint denominator) public {
-       uint quotient  = numerator / denominator;
-       uint remainder = numerator - denominator * quotient;
-        emit returnValue(remainder,quotient);
-    }
-
     function percent(uint numerator, uint denominator, uint precision) public pure returns(uint quotient) {
 
          // caution, check safe-to-multiply here
 	uint256 pre = add(precision,1);
 //	require(pre > 0);
 	uint256 mulNo = 10;
+    require(mulNo > pre);
 	uint256 Exponentiation= mulNo**uint256(pre);
 	uint _numerator  = mul(numerator,Exponentiation);
         // with rounding of last digit
