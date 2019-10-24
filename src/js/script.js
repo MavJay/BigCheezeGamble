@@ -16,20 +16,22 @@ var apiEmail="muthukumaresh@vijayasekar.com";
 
 //host links
 
-var serverlink="http://192.168.1.31:8080/neutraldragontournament/rest/";
 
-//var serverlink="http://192.168.1.31:8080/neutraldragontournament/rest/";
 
 //var alchemyLink="https://cheezewizards-rinkeby.alchemyapi.io/wizards";
-var alchemyLink="https://cheezewizards.alchemyapi.io/wizards"
+var alchemyLink="https://cheezewizards.alchemyapi.io/wizards";
 
+
+// Messages to show to users
+
+var BetInfo = "Waiting for the transaction to be confirmed.";
 
 // when window is loaded calling alchemy api to get wizard details
 $(window).on("load",function() {
 
 
 	getwizdetails();
-	$("#loader").hide();
+	// $("#loader").hide();
 	
 });
 
@@ -47,11 +49,12 @@ var totalPowerToUpdate=0;
 // method to insert wizard detials in table 
 
 function inserwizintable(wizarray){        
+	 $("#loader").show();
 
 		var table_header = '<table id="wiztable'+tableid+'" class="table table-striped table-bordered" style="width:100%"><thead><tr><th>Wizard ID</th><th>Power</th>'
 		+'<th>Total amount bet on Wizard (in ETH)</th><th>Number of Bettors on Wizard</th><th>Bet amount (in ETH)</th> <th></th> </tr> </thead><tbody id="textip">'
 		+'</tbody></table>';               
-		                                                                                                            
+																													
 
 	for(var i=0;i<wizarray.length;i++){
 
@@ -79,6 +82,9 @@ function inserwizintable(wizarray){
 						+tempTableDetailsArray[j].bettersize+'</td><td><input type="number" type="number"  min="0.001" max="1000" step="0.01" name="" id="'
 						+ wizarray[i].id +'"></td> <td><button class="place_bet_btn"onclick="placebet('+ wizarray[i].id +')">Bet</button></td> </tr>';
 						tempValueset=true;
+						// '+ wizarray[i].id +','+BetInfo+'
+
+						// '+ wizarray[i].id +'
 					}
 
 				}
@@ -106,7 +112,6 @@ function inserwizintable(wizarray){
 
 		// add this new checking method after confirming wizards can be revived if tournament is in revive phase so need to check only eliminated block
 		if(wizarray[i].eliminatedBlockNumber==null){
-
 			active++;
 			totalPower=totalPower+parseInt(wizarray[i].power/1000000000000);
 		}
@@ -119,19 +124,9 @@ function inserwizintable(wizarray){
 	$("#textip").html("");
 	$("#textip").append(tableData);
 
-	wiztabel_height = $(window).height()-$(".navbar").height()-$(".details_container").height()-30 -170;
-	console.log("wiztable",wiztabel_height);
+	wiztabel_height = $(window).height()-$(".navbar").height()-$(".details_container").height()-30 -170-10;
+	// console.log("wiztable",wiztabel_height);
 	tableData="";
-
-
-	// $('#wiztable').DataTable( {
-	// 	scrollY: wiztabel_height
-
-
-	// } );
-
-	
-
 
 $("#total_wiz").text("Number of Wizards at the Start of Tournament: "+wizarray.length);
 $("#active_wiz").text("Number of Remaining Wizards in the Tournament: "+active);
@@ -143,21 +138,22 @@ setTable(wiztabel_height);
 tableid++;    
 active=0;
 totalPower =0;
-// $("#loader").hide();
 
 }
 
 
 function setTable(wiztabel_height){
-$("#loader").show();
 	var datatableid='#wiztable'+tableid;
 	$(datatableid).DataTable( {
+		 
 		scrollY: wiztabel_height
+
 	} );
+
 	var datatablewrapperid= datatableid+'_wrapper';
 	$(datatablewrapperid).css("margin-top", "10px");
-
-   		$("#loader").hide();
+ $("#loader").hide();
+		
 }
 
 // function to update total price pool value in topbar according to emitted value
@@ -173,69 +169,36 @@ function updatePrizePool(pricePool){
 // function to fetch wizard details from alchemy api
 
 function getwizdetails(){
+$("#loader").show();
 
-   //     var walletAddress ="0xc92a2167a1f788a468665e292ea4038d7a9928dd";
-
-   $("#loader").show();
+  
    $.ajax({
 
-   	url: alchemyLink,
-   	beforeSend: function(xhr) { 
-   		xhr.setRequestHeader("x-api-token", apiToken); 
-   		xhr.setRequestHeader("x-email",apiEmail);
-   		xhr.setRequestHeader("contentType","application/json");
-   	},
-   	type: 'GET',
-   	contentType: 'application/json',
-   	success: function (data) {
+	url: alchemyLink,
+	beforeSend: function(xhr) { 
+		xhr.setRequestHeader("x-api-token", apiToken); 
+		xhr.setRequestHeader("x-email",apiEmail);
+		xhr.setRequestHeader("contentType","application/json");
+	},
+	type: 'GET',
+	contentType: 'application/json',
+	success: function (data) {
+		$("#loader").show();
 
-   		inserwizintable(data.wizards);
-   		wizarray=data.wizards;
-   	//$("#table_container").html("");
-	
-$("#loader").show();
-   		console.log(data.wizards.length,"length");
+		inserwizintable(data.wizards);
+		wizarray=data.wizards;
 
+		// console.log(data.wizards.length,"length");
+		
+$("#loader").hide();
 
-   	},
+	},
 
-   	error: function(){
-   		$("#loader").hide();
-   		alert("Cannot get data");
-   	}
+	error: function(){
+	$("#loader").hide();
+		alert("Cannot get data");
+	}
    });
-
-
-
-    //  $.ajax({
-    //             type: "POST",
-    //             url: serverlink+"getwizdata",
-    //             crossDomain: true,
-              
-    //             success: function (data) {
-
-
-    //            inserwizintable(data.wizards);
-
-   	// 	wizarray=data.wizards;
-   	// //$("#table_container").html("");
-   	//   console.log("wizdetaisl",wizarray);
-	
-   	// 	$("#loader").hide();
-
-   	// 	console.log(data.wizards.length,"length");
-
-    //                   },
-    //             error: function (err) {
-                                      
-    //                      	$("#loader").hide();
-   	// 	alert("Cannot get data");
-    //                          }
-    //                  });
-
-
-
-
 
 }
 
@@ -267,13 +230,14 @@ function placebet(wizid){
 
 	}
 	else{
+		
 		var bet_value = bet*1000;
-		console.log("bet",bet,"bet_value",bet_value);
+		// console.log("bet",bet,"bet_value",bet_value);
 		
 
 		App.placeBetOnWizard(web3.eth.accounts[0],wizid,bet_value,parseInt(wizPower/1000000000000),totalPowerToUpdate,wizarray.length,activeToUpdate,{from: App.account,value: web3.toWei(bet,'ether')});
 	}
-
+	// showNotification(wizid);
 
 }
 
@@ -284,78 +248,15 @@ function popWinner(winingWizard,winingAmount,winnerAddress){
 	$("#winner_details").append(innerText);
 	$("#showWinner_btn").click();
 
-
 }
 
 
 function updatetable(emitteddetails){
-	console.log(emitteddetails,"emited");
+	// console.log(emitteddetails,"emited");
 	
 }
 
 
-// call prize distribution function if there  is only one wizard with power greater than zero.
-   		
-   		
-function checkTournamentStatus(){
-
- $.ajax({
-
-   	url: alchemyLink+"?minpower=100000",
-   	beforeSend: function(xhr) { 
-   		xhr.setRequestHeader("x-api-token", apiToken); 
-   		xhr.setRequestHeader("x-email",apiEmail);
-   		xhr.setRequestHeader("contentType","application/json");
-   	},
-   	type: 'GET',
-   	contentType: 'application/json',
-   	success: function (data) {
-   		wizarray=data.wizards;
-   		console.log(data.wizards.length,"length in status");
-
-		// change this to lenght is equal to one
-$("#loader").hide();
-   		if(data.wizards.length==1){
-   		//	distributePrize(data);
-   			App.distribute(data.wizards.id);
-   		}
-   	},
-
-  
-   });
-
-
-
-
-
-     // $.ajax({
-     //            type: "POST",
-     //            url: serverlink+"wizardsminpower",
-     //            crossDomain: true,
-              
-     //            success: function (data) {
-               
-     //            		wizarray=data.wizards;
-   		// 				console.log(data.wizards.length,"length in status");
-
-					// 	// keep this to lenght is equal to one (as per cheeze wizard tournament style)
-
-   		// 					if(data.wizards.length==1){
-   		// 				//	distributePrize(data);
-   		// 					console.log("winner id",data.wizards[0].id);
-   		// 					App.distribute(data.wizards[0].id);
-   		// 					}
-
-     //                  },
-     //            			error: function (err) {
-                                      
-     //                        $("#loader").hide();
-   		// 					alert("Cannot get data",err);
-   		// 					console.log("err",err);
-     //                         }
-     //                 });
-
- }
 
 
 $(document).on('load',function(){
@@ -365,74 +266,39 @@ $(document).on('load',function(){
 
 function resetTable(){
 
-
-	$("#loader").show();
-//	checkTournamentStatus();
 	getwizdetails();
-//	makeDataTable();
 	
 }
 
-// function makeDataTable(){
 
 
-// }
 
+function myFunction(){
+	  $("#userNotificationText").html('');
+	  $("#notificationinfo").hide();
+	  // console.log("hit");
+}
 //To get the tournament status:
 
 
-setTimeout(function(){ checkTournamentStatus();
- }, 10000);
-
-// watchEtherTransfers();
-
-// function watchEtherTransfers() {
-// 	debugger
-//   // Instantiate web3 with WebSocket provider
-//   const web3 = new Web3(new Web3.providers.WebsocketProvider('wss://localhost:8545/ws'))
-
-//   // Instantiate subscription object
-//   const subscription = web3.eth.subscribe('pendingTransactions')
-
-//   // Subscribe to pending transactions
-//   subscription.subscribe((error, result) => {
-//     if (error) console.log(error)
-//   })
-//   .on('data', async (txHash) => {
-//     try {
-//       // Instantiate web3 with HttpProvider
-//       const web3Http = new Web3('https://rinkeby.infura.io/')
-
-//       // Get transaction details
-//       const trx = await web3Http.eth.getTransaction(txHash)
-
-//       const valid = validateTransaction(trx)
-//       // If transaction is not valid, simply return
-//       if (!valid) return
-
-//       console.log('Found incoming Ether transaction from ' + process.env.WALLET_FROM + ' to ' + process.env.WALLET_TO);
-//       console.log('Transaction value is: ' + process.env.AMOUNT)
-//       console.log('Transaction hash is: ' + txHash + '\n')
-
-//       // Initiate transaction confirmation
-//       confirmEtherTransaction(txHash)
-
-//       // Unsubscribe from pending transactions.
-//       subscription.unsubscribe()
-//     }
-//     catch (error) {
-//       console.log(error)
-//     }
-//   })
-// }
 
 
+
+// To detect change in network and account
 
 
 	var account1 = web3.eth.accounts[0];
 	var accountInterval = setInterval(function() {
   if (web3.eth.accounts[0] !== account1) {
-    account1 = web3.eth.accounts[0];
-    location.reload();
+	account1 = web3.eth.accounts[0];
+	location.reload();
   }
 }, 100);
+
+
+
+
+
+
+
+

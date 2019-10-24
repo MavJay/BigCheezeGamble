@@ -1,7 +1,7 @@
 pragma solidity >=0.4.22 <0.6.0;
 contract BigGamble{
 
-    bool public prizeDistributed = false;
+    // bool public prizeDistributed = false;
  
     uint256 public numberOfBets;
     uint256 public ethToWei = 1000000000000000000;
@@ -38,7 +38,7 @@ contract BigGamble{
 
     event throwWizardInfo(uint wizardId,uint wizardTotalBet);
     // address of the developer to receive developer commission.
-    address payable private developer = 0x14723A09ACff6D2A60DcdF7aA4AFf308FDDC160C;
+    address payable private developer = 0xb3e94487b8C4eF9169Ebc2b9672a3222b8df401f;
     constructor() public{
        
     }
@@ -111,19 +111,24 @@ contract BigGamble{
         return twizardRatio;
     }
 
+    function getDivided(uint numerator, uint denominator) public {
+       uint quotient  = numerator / denominator;
+       uint remainder = numerator - denominator * quotient;
+        emit returnValue(remainder,quotient);
+    }
+
     function percent(uint numerator, uint denominator, uint precision) public pure returns(uint quotient) {
 
          // caution, check safe-to-multiply here
-	uint256 pre = add(precision,1);
-//	require(pre > 0);
-	uint256 mulNo = 10;
-    require(mulNo > pre);
-	uint256 Exponentiation= mulNo**uint256(pre);
-	uint _numerator  = mul(numerator,Exponentiation);
+    uint256 pre = add(precision,1);
+//  require(pre > 0);
+    uint256 mulNo = 10;
+    uint256 Exponentiation= mulNo**uint256(pre);
+    uint _numerator  = mul(numerator,Exponentiation);
         // with rounding of last digit
-	uint256 div_numerator = div(_numerator , denominator);
-	uint256 add_number = add(div_numerator,5);
-	uint _quotient =  div(add_number,10);
+    uint256 div_numerator = div(_numerator , denominator);
+    uint256 add_number = add(div_numerator,5);
+    uint _quotient =  div(add_number,10);
        // uint _quotient =  ((_numerator / denominator) + 5) / 10;
         return ( _quotient);
     }
@@ -137,7 +142,7 @@ contract BigGamble{
        
      //  uint256 result = mod()
          uint256 Ratio = mul(powerRatio,wizardRatio);
-	 return mul(betAmt,Ratio);
+     return mul(betAmt,Ratio);
     }
    
    
@@ -207,15 +212,16 @@ contract BigGamble{
 
 
     function distributePrizeMoney(uint256 wizardId) public payable{
-     require(developer == msg.sender);
+     require(developer == msg.sender,"Address mismatch");
      uint sumOfAllSsb = calculateSsbFromTournamentWinningWizard(wizardId);   
+     totalBetAmountPlaced=totalBetAmountPlaced/1000;
     if (getInfo[wizardId].length == 0){
          uint total_ether = totalBetAmountPlaced*1000000000000000000;
         developer.transfer(total_ether);
-        prizeDistributed = true;
+        // prizeDistributed = true;
     }
     else{
-         if (!prizeDistributed){
+        //  if (!prizeDistributed){
              
         // uint sumOfAllSsb = calculateSsbFromTournamentWinningWizard(wizardId);
         uint total_ether = totalBetAmountPlaced*1000000000000000000; //
@@ -233,8 +239,8 @@ contract BigGamble{
         }
         developer.transfer(commision);
         
-        prizeDistributed = true;
-      }
+        // prizeDistributed = true;
+    //   }
     }
        
     }

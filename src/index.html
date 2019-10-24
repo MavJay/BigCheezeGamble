@@ -28,156 +28,197 @@
 <body>
 
  <nav class="navbar navbar-expand-md bg-light navbar-light">
-  <!-- Brand -->
-  <a class="navbar-brand" href="#">
-    <img src="./images/full_logo.svg" alt="logo" id="cw_logo">
-  </a>
-  <div id="tournament_name">BIG CHEEZE GAMBLE</div>
+	<!-- Brand -->
+	<a class="navbar-brand" href="#">
+		<img src="./images/full_logo.svg" alt="logo" id="cw_logo">
+	</a>
+	<div id="tournament_name">BIG CHEEZE GAMBLE</div><span style="max-width: 300px; max-height: 50px;">Supports <img src="./images/metamask.svg" style="width: 25px; height: 25px;  margin-right: 20px;"></span>
 <!--  Nav inside
 -->
 
  <button type="button" class="btn btn-outline-dark help" data-toggle="modal" data-target=".bd-example-modal-lg" style="margin-right: 8px;">How to Play</button>
 
  <button type="button" class="btn btn-outline-dark help" data-toggle="modal" data-target="#bets">My Bets</button>
-       
-   
+			 
+	 
 </ul>
 </div>
 
 </nav>
 
+
+
 <div class="details_container">
-  <div class="row">
-    <div class="col" id="total_wiz">
-      Number of Wizards at the tart of Tournament: -
-    </div>
-    <div class="col" id="active_wiz">
-     Number of Remaining Wizards in the Tournament: -
-   </div>
-   <div class="col" id="total_power">
-     Total Power of Wizards: -
-   </div>
-   <div class="col" id="total_prize">
-     Total Prize Pool: 0
-   </div>
+	<div class="row">
+		<div class="col" id="total_wiz">
+			Number of Wizards at the tart of Tournament: -
+		</div>
+		<div class="col" id="active_wiz">
+		 Number of Remaining Wizards in the Tournament: -
+	 </div>
+	 <div class="col" id="total_power">
+		 Total Power of Wizards: -
+	 </div>
+	 <div class="col" id="total_prize">
+		 Total Prize Pool: 0
+	 </div>
  </div>
 </div>
 <div id="table_container">
 
 <!--   <table id="wiztable" class="table table-striped table-bordered" style="width:100%">
-    <thead>
-      <tr>
-        <th>Wizard ID</th>
-        <th>Power</th>
-        <th>Total amount bet on Wizard (in ETH)</th>
-        <th>Number of Bettors on Wizard</th>
-        <th>Bet amount (in ETH)</th>
-        <th></th>
-      </tr>
-    </thead>
-    <tbody id="textip">
+		<thead>
+			<tr>
+				<th>Wizard ID</th>
+				<th>Power</th>
+				<th>Total amount bet on Wizard (in ETH)</th>
+				<th>Number of Bettors on Wizard</th>
+				<th>Bet amount (in ETH)</th>
+				<th></th>
+			</tr>
+		</thead>
+		<tbody id="textip">
 
 
-    </tbody>
+		</tbody>
  
-    </table> -->
+		</table> -->
 
-     <!--   <tfoot>
-        <tr>
-        <th>Wizard ID</th>
-        <th>Power</th>
-        <th>Total amount bet on Wizard</th>
-        <th>Number of Bettors on Wizard</th>
-        <th>Bet amount (in ETH)</th>
-        <th></th>
-        </tr>
-      </tfoot> -->
+		 <!--   <tfoot>
+				<tr>
+				<th>Wizard ID</th>
+				<th>Power</th>
+				<th>Total amount bet on Wizard</th>
+				<th>Number of Bettors on Wizard</th>
+				<th>Bet amount (in ETH)</th>
+				<th></th>
+				</tr>
+			</tfoot> -->
 
-  </div>
+	</div>
 
-  <div id="loader" style="width: 100%;height: 100%; position: absolute;  top:0; bottom: 0; left: 0; right: 0; margin: auto; background-color:rgba(0, 0, 0, 0.5);">
+	<div id="loader" style="width: 100%;height: 100%; position: absolute;  top:0; bottom: 0; left: 0; right: 0; margin: auto; background-color:rgba(0, 0, 0, 0.5);">
 
-    <img src="/images/loading.svg" style="width: 100px;height: 100px;  position: absolute;top:0; bottom: 0;left: 0;right: 0; margin: auto; "> 
-    <span id  style="min-width: 200px;min-height: 100px;  position: absolute;top:0; bottom: 0;left: 0;right: 0; margin: auto;" ><p>TEST TEXT</p>
-    </span>
-    </div>
-
-
+    <img src="/images/loader.gif" style="width: 100px;height: 100px;  position: absolute;top:0; bottom: 0;left: 0;right: 0; margin: auto; "> 
+		<!-- <img style="-webkit-user-select: none;width: 100px;height: 100px;  position: absolute;top:0; bottom: 0;left: 0;right: 0; margin: auto; " src="https://app.cheezewizards.com/static/img/fightScene/loader.gif"> -->
+		
+		</div>
 
 
-    <div class="modal fade bd-example-modal-lg helpdata" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
-      <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-         <!--  Modal Header -->
-         <div class="modal-header">
-          <h4 class="modal-title " >How to Play</h4>
-          <button type="button" class="close" data-dismiss="modal">&times;</button>
-        </div>
 
-        <p class="text-justify">1.Bet money on your favorite Wizard or the Wizard you think would climb up the ladder in the race to become the Big Cheeze and make you win.<br>
-          2.Betting earlier in the Tournament with greater risk of winning would give you more returns than later in the Tournament when there are lesser number of Wizards.<br>
-          &nbsp;&nbsp;&nbsp;a.The more Wizards there are the more risk the Bettor takes<br>
-          3.The Power of the Wizard you bet on and the number of Wizards at the time of betting influences the prize money.<br>
-          &nbsp;&nbsp;&nbsp;a.The more Power a Wizard possesses the less risk the Bettor takes<br>
-          4.The direct correlation of number of Wizards and inverse correlation of Power possessed by Wizards is represented in our calculation of standardized bet, which is the way the risk taken by the Bettors are appropriately accounted for.<br>
-          5.The total prize money, collected from the Bettors’ bets, are distributed to the bettors who had bet on the Big Cheeze of the Tournament, in a ratio proportional to the amount bet by them.<br>
-          6.A 10% from the total bet amount collected goes to the developers for maintaining the house. The total prize money distributed is the amount after the 10% developer fee is deducted.<br>
-          <br>Formula to compute the prize money<br>
+	<div id="notificationinfo" style="width: 100%;height: 100%; position: absolute;  top:0; bottom: 0; left: 0; right: 0; margin: auto; background-color:rgba(0, 0, 0, 0.5); display: none;">
+		<img style="-webkit-user-select: none;width: 100px;height: 100px;  position: absolute;top:0; bottom: 0;left: 0;right: 0; margin: auto; " 
+		src="https://app.cheezewizards.com/static/img/fightScene/loader.gif">
 
-          <div class="text-center"> P = P × (SB ÷ SSB)</div><br>
-          <div class="padd">
-            P = prize money distributed to the winning Bettor (Total bet collected — 10% of total bet collected)<br>
-            SB = standardized bet value at the time of placing bet<br>
-            SSB = sum of standardized bets in all duels<br>
+		<span  id="userNotificationText"style="-webkit-user-select: none;max-width: 400px;max-height: 150px; min-width: 100px;
+		min-height: 100px;  position: absolute;top:0; bottom: 0;left: 0;right: 0; margin: auto;
+		 background-color:/* #ffff85*/#fff; transform: translateY(200px); text-align: center;" ></span>
 
-            <div class="text-center">SB = A × WR × PR</div><br>
+		 <button style="-webkit-user-select: none; background-color: #fff; max-width: 150px; max-height: 100px; position: absolute; top:100px; right: 100px; margin: auto; cursor: pointer;" onclick="myFunction()"> Close </button>
 
-            Amount bet by the Bettor at the time of placing bet<br>
-            Wizard ratio at the time of placing bet<br>
-            Power ratio at the time of placing bet<br>
-
-            <div class="text-center">WR = w ÷ W</div><br>
-
-            w = number of Wizards in Tournament at the time of betting<br>
-            W = total number of Wizards at the start of Tournament<br><br>
-
-            <div class="text-center">PR = P ÷ p</div><br>
-
-            P = total Power of Wizards left in Tournament at the time of betting<br>
-            p = Power of the Wizard bet on<br>
-          </div>
-        </p>
-      </div>
-    </div>
-  </div>
+		</div> 
 
 
-  <!-- Button to Open the Modal -->
-   <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal" id="showWinner_btn" style="visibility: hidden;">
-   Result                        
+		<div class="modal fade bd-example-modal-lg helpdata" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+			<div class="modal-dialog modal-lg">
+				<div class="modal-content">
+				 <!--  Modal Header -->
+				 <div class="modal-header">
+					<h4 class="modal-title " >How to Play</h4>
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+				</div>
+
+<!-- 
+	 <div class="spinner-grow text-primary" role="status">
+	<span class="sr-only">Loading...</span>
+</div>
+<div class="spinner-grow text-secondary" role="status">
+	<span class="sr-only">Loading...</span>
+</div>
+<div class="spinner-grow text-success" role="status">
+	<span class="sr-only">Loading...</span>
+</div>
+<div class="spinner-grow text-danger" role="status">
+	<span class="sr-only">Loading...</span>
+</div>
+<div class="spinner-grow text-warning" role="status">
+	<span class="sr-only">Loading...</span>
+</div>
+<div class="spinner-grow text-info" role="status">
+	<span class="sr-only">Loading...</span>
+</div>
+<div class="spinner-grow text-light" role="status">
+	<span class="sr-only">Loading...</span>
+</div>
+<div class="spinner-grow text-dark" role="status">
+	<span class="sr-only">Loading...</span>
+</div> -->
+
+				<p class="text-justify">1.Bet money on your favorite Wizard or the Wizard you think would climb up the ladder in the race to become the Big Cheeze and make you win.<br>
+					2.Betting earlier in the Tournament with greater risk of winning would give you more returns than later in the Tournament when there are lesser number of Wizards.<br>
+					&nbsp;&nbsp;&nbsp;a.The more Wizards there are the more risk the Bettor takes<br>
+					3.The Power of the Wizard you bet on and the number of Wizards at the time of betting influences the prize money.<br>
+					&nbsp;&nbsp;&nbsp;a.The more Power a Wizard possesses the less risk the Bettor takes<br>
+					4.The direct correlation of number of Wizards and inverse correlation of Power possessed by Wizards is represented in our calculation of standardized bet, which is the way the risk taken by the Bettors are appropriately accounted for.<br>
+					5.The total prize money, collected from the Bettors’ bets, are distributed to the bettors who had bet on the Big Cheeze of the Tournament, in a ratio proportional to the amount bet by them.<br>
+					6.A 10% from the total bet amount collected goes to the developers for maintaining the house. The total prize money distributed is the amount after the 10% developer fee is deducted.<br>
+					7.Once the Tournament is complete, Bettors will receive the prize amount within a week.<br>
+					<br>Formula to compute the prize money<br>
+
+					<div class="text-center"> P = P × (SB ÷ SSB)</div><br>
+					<div class="padd">
+						P = prize money distributed to the winning Bettor (Total bet collected — 10% of total bet collected)<br>
+						SB = standardized bet value at the time of placing bet<br>
+						SSB = sum of standardized bets in all duels<br>
+
+						<div class="text-center">SB = A × WR × PR</div><br>
+
+						Amount bet by the Bettor at the time of placing bet<br>
+						Wizard ratio at the time of placing bet<br>
+						Power ratio at the time of placing bet<br>
+
+						<div class="text-center">WR = w ÷ W</div><br>
+
+						w = number of Wizards in Tournament at the time of betting<br>
+						W = total number of Wizards at the start of Tournament<br><br>
+
+						<div class="text-center">PR = P ÷ p</div><br>
+
+						P = total Power of Wizards left in Tournament at the time of betting<br>
+						p = Power of the Wizard bet on<br>
+					</div>
+				</p>
+			</div>
+		</div>
+	</div>
+
+
+	<!-- Button to Open the Modal -->
+	 <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal" id="showWinner_btn" style="visibility: hidden;">
+	 Result                        
  </button>
 
  <!--The Modal -->
  <div class="modal fade winner" id="myModal">
-  <div class="modal-dialog">
-    <div class="modal-content">
+	<div class="modal-dialog">
+		<div class="modal-content">
 
-     <!--  Modal Header -->
-     <div class="modal-header">
-      <h4 class="modal-title " >Winner</h4>
-      <button type="button" class="close" data-dismiss="modal">&times;</button>
-    </div>
+		 <!--  Modal Header -->
+		 <div class="modal-header">
+			<h4 class="modal-title " >Winner</h4>
+			<button type="button" class="close" data-dismiss="modal">&times;</button>
+		</div>
 
-    <!--  Modal body -->
-    <div class="modal-body">
+		<!--  Modal body -->
+		<div class="modal-body">
 
-      <table id="winner_details">
+			<table id="winner_details">
 
-      </table>
+			</table>
 
-    </div>
+		</div>
 
-  </div>
+	</div>
 
 </div>
 </div>
@@ -185,24 +226,34 @@
 
 
  <div class="modal fade bets" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true" id="bets">
-      <div class="modal-dialog modal-lg" >
-        <div class="modal-content">
-         <!--  Modal Header -->
-         <div class="modal-header">
-          <h4 class="modal-title " >MY BETS</h4>
-          <button type="button" class="close" data-dismiss="modal">&times;</button>
-        </div>
+			<div class="modal-dialog modal-lg" >
+				<div class="modal-content">
+				 <!--  Modal Header -->
+				 <div class="modal-header">
+					<h4 class="modal-title " >MY BETS</h4>
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+				</div>
 
-          <table id="my_bets">
-            
-          </table>
-      </div>
-    </div>
+					<table id="my_bets">
+						
+					</table>
+			</div>
+		</div>
+	</div>
+
+<span style="position: fixed;bottom: 3px; right: 3px;">Powered by <a href="https://www.mavjay.com"><img src="/images/MavJayLogo.png" style="width: 75px; height: 25px;"></a></span>
+<!-- 
+  <div class="container" style="margin-top:16px;">
+      <div>
+      <span>Enter Wizard ID : </span>
+      <span>
+      <input type="text" id="myInput"/>
+    </span>
   </div>
-
-
-
-
+  <div>
+    <button id="initiateDistribution" onclick="App.claimPrize();">Initiate</button>
+  </div>
+    </div> -->
 <!-- </div>
 
 </div> -->
