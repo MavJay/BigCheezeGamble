@@ -1,15 +1,15 @@
 pragma solidity >=0.4.22 <0.6.0;
 contract BigGamble{
 
-    // bool public prizeDistributed = false;
+    bool public prizeDistributed = false;
  
     uint256 public numberOfBets;
-    uint256 public ethToWei = 1000000000000000000;
+  //  uint256 public ethToWei = 1000000000000000000;
     uint256 public totalBetAmountPlaced;
     struct bettor {
         uint selectedWizardId;
         address payable player;
-        uint betAmt;
+        uint256 betAmt;
         uint wizardPower;
         uint betTimeStamp;
         uint powerRation;
@@ -76,7 +76,7 @@ contract BigGamble{
       return false;
    }
    
-    function joinTournamentByBet(address payable userAddress,uint selectedWizard, uint betAmt,uint wizardPower,uint tPWizards,uint wizardSOT,uint wizardTOB) public payable{
+    function joinTournamentByBet(address payable userAddress,uint selectedWizard, uint256 betAmt,uint wizardPower,uint tPWizards,uint wizardSOT,uint wizardTOB) public payable{
        
        
         // Need to add wizard information..
@@ -123,7 +123,8 @@ contract BigGamble{
     uint256 pre = add(precision,1);
 //  require(pre > 0);
     uint256 mulNo = 10;
-    uint256 Exponentiation= mulNo**uint256(pre);
+    require(mulNo > pre);
+    uint256 Exponentiation= mulNo**pre;
     uint _numerator  = mul(numerator,Exponentiation);
         // with rounding of last digit
     uint256 div_numerator = div(_numerator , denominator);
@@ -214,9 +215,8 @@ contract BigGamble{
     function distributePrizeMoney(uint256 wizardId) public payable{
      require(developer == msg.sender,"Address mismatch");
      uint sumOfAllSsb = calculateSsbFromTournamentWinningWizard(wizardId);   
-     totalBetAmountPlaced=totalBetAmountPlaced/1000;
     if (getInfo[wizardId].length == 0){
-         uint total_ether = totalBetAmountPlaced*1000000000000000000;
+         uint total_ether = totalBetAmountPlaced;
         developer.transfer(total_ether);
         // prizeDistributed = true;
     }
@@ -224,7 +224,7 @@ contract BigGamble{
         //  if (!prizeDistributed){
              
         // uint sumOfAllSsb = calculateSsbFromTournamentWinningWizard(wizardId);
-        uint total_ether = totalBetAmountPlaced*1000000000000000000; //
+        uint total_ether = totalBetAmountPlaced; //
         //commision
         uint commision = (total_ether*10)/100;
         //Reward for players to split
@@ -239,10 +239,8 @@ contract BigGamble{
         }
         developer.transfer(commision);
         
-        // prizeDistributed = true;
-    //   }
-    }
-       
+     //   prizeDistributed = true;
+      }
     }
    
     function getAllInfoOfAUser(address playerAddress) public 
