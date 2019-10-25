@@ -32,7 +32,7 @@
 	<a class="navbar-brand" href="#">
 		<img src="./images/full_logo.svg" alt="logo" id="cw_logo">
 	</a>
-	<div id="tournament_name">BIG CHEEZE GAMBLE</div><span style="max-width: 300px; max-height: 50px;">Supports <img src="./images/metamask.svg" style="width: 25px; height: 25px;  margin-right: 20px;"></span>
+	<div id="tournament_name">BIG CHEEZE GAMBLE</div><span style="max-width: 300px; max-height: 50px;">Supports <a href="https://metamask.io/" target="_blank"><img src="./images/metamask.svg" style="width: 25px; height: 25px;  margin-right: 20px;"></a></span>
 <!--  Nav inside
 -->
 
@@ -99,7 +99,7 @@
 
 	<div id="loader" style="width: 100%;height: 100%; position: absolute;  top:0; bottom: 0; left: 0; right: 0; margin: auto; background-color:rgba(0, 0, 0, 0.5);">
 
-    <img src="/images/loader.gif" style="width: 100px;height: 100px;  position: absolute;top:0; bottom: 0;left: 0;right: 0; margin: auto; "> 
+    <img src="./images/loader.gif" style="width: 100px;height: 100px;  position: absolute;top:0; bottom: 0;left: 0;right: 0; margin: auto; "> 
 		<!-- <img style="-webkit-user-select: none;width: 100px;height: 100px;  position: absolute;top:0; bottom: 0;left: 0;right: 0; margin: auto; " src="https://app.cheezewizards.com/static/img/fightScene/loader.gif"> -->
 		
 		</div>
@@ -107,14 +107,19 @@
 
 
 	<div id="notificationinfo" style="width: 100%;height: 100%; position: absolute;  top:0; bottom: 0; left: 0; right: 0; margin: auto; background-color:rgba(0, 0, 0, 0.5); display: none;">
-		<img style="-webkit-user-select: none;width: 100px;height: 100px;  position: absolute;top:0; bottom: 0;left: 0;right: 0; margin: auto; " 
-		src="https://app.cheezewizards.com/static/img/fightScene/loader.gif">
+		<img style="-webkit-user-select: none;width: 100px;height: 100px;  position: absolute;top:0; bottom: 0;left: 0;right: 0; margin: auto;" 
+		src="./images/loader.gif">
+		<div style="position: relative ">
+				
+		<div  id="userNotificationText"style="background-color:/* #ffff85*/#fff; text-align: center; max-width: 40%;min-height: 100px; max-height: 200px; text-align: center; vertical-align: middle; right: 0;left: 0;margin: auto; margin-top:35%;" ></div>
+		 	 <button style="background: #fff; width: 100px; max-height: 50px; right: 0;left: 0;margin: auto; position: absolute; cursor: pointer; margin-top: -10px;" onclick="myFunction()"> Close </button>
 
-		<span  id="userNotificationText"style="-webkit-user-select: none;max-width: 400px;max-height: 150px; min-width: 100px;
-		min-height: 100px;  position: absolute;top:0; bottom: 0;left: 0;right: 0; margin: auto;
-		 background-color:/* #ffff85*/#fff; transform: translateY(200px); text-align: center;" ></span>
+		<!-- <span  id="userNotificationText"style="-webkit-user-select: none;width: 400px; height: 150px;  position: relative; left: 45%; top: 60%; transform: translateY(150px); /*transform: translateX(200px)*/;
+		 background-color:#fff; transform: translateY(200px); text-align: center;" ></span> -->
 
-		 <button style="-webkit-user-select: none; background-color: #fff; max-width: 150px; max-height: 100px; position: absolute; top:100px; right: 100px; margin: auto; cursor: pointer;" onclick="myFunction()"> Close </button>
+
+
+		</div>
 
 		</div> 
 
@@ -128,32 +133,6 @@
 					<button type="button" class="close" data-dismiss="modal">&times;</button>
 				</div>
 
-<!-- 
-	 <div class="spinner-grow text-primary" role="status">
-	<span class="sr-only">Loading...</span>
-</div>
-<div class="spinner-grow text-secondary" role="status">
-	<span class="sr-only">Loading...</span>
-</div>
-<div class="spinner-grow text-success" role="status">
-	<span class="sr-only">Loading...</span>
-</div>
-<div class="spinner-grow text-danger" role="status">
-	<span class="sr-only">Loading...</span>
-</div>
-<div class="spinner-grow text-warning" role="status">
-	<span class="sr-only">Loading...</span>
-</div>
-<div class="spinner-grow text-info" role="status">
-	<span class="sr-only">Loading...</span>
-</div>
-<div class="spinner-grow text-light" role="status">
-	<span class="sr-only">Loading...</span>
-</div>
-<div class="spinner-grow text-dark" role="status">
-	<span class="sr-only">Loading...</span>
-</div> -->
-
 				<p class="text-justify">1.Bet money on your favorite Wizard or the Wizard you think would climb up the ladder in the race to become the Big Cheeze and make you win.<br>
 					2.Betting earlier in the Tournament with greater risk of winning would give you more returns than later in the Tournament when there are lesser number of Wizards.<br>
 					&nbsp;&nbsp;&nbsp;a.The more Wizards there are the more risk the Bettor takes<br>
@@ -163,6 +142,7 @@
 					5.The total prize money, collected from the Bettors’ bets, are distributed to the bettors who had bet on the Big Cheeze of the Tournament, in a ratio proportional to the amount bet by them.<br>
 					6.A 10% from the total bet amount collected goes to the developers for maintaining the house. The total prize money distributed is the amount after the 10% developer fee is deducted.<br>
 					7.Once the Tournament is complete, Bettors will receive the prize amount within a week.<br>
+					8.The minimum price that a Wizard can be bet on is 0.001 eth. <br>
 					<br>Formula to compute the prize money<br>
 
 					<div class="text-center"> P = P × (SB ÷ SSB)</div><br>
@@ -199,7 +179,7 @@
  </button>
 
  <!--The Modal -->
- <div class="modal fade winner" id="myModal">
+ <div class="modal fade winner" id="myModal" style="min-width: 500px;">
 	<div class="modal-dialog">
 		<div class="modal-content">
 
@@ -241,7 +221,7 @@
 		</div>
 	</div>
 
-<span style="position: fixed;bottom: 3px; right: 3px;">Powered by <a href="https://www.mavjay.com"><img src="/images/MavJayLogo.png" style="width: 75px; height: 25px;"></a></span>
+<span style="position: fixed;bottom: 5px; right: 5px;">Powered by <img src="./images/MavJayLogo.png" style="width: 75px; height: 25px;"></span>
 <!-- 
   <div class="container" style="margin-top:16px;">
       <div>

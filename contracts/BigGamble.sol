@@ -1,7 +1,7 @@
 pragma solidity >=0.4.22 <0.6.0;
 contract BigGamble{
 
-    bool public prizeDistributed = false;
+    // bool public prizeDistributed = false;
  
     uint256 public numberOfBets;
   //  uint256 public ethToWei = 1000000000000000000;
@@ -19,7 +19,7 @@ contract BigGamble{
        
     }
     bettor[] private bettorInfo;
-    
+   
     struct winnerDetails {
         bool claimStatus;
         address payable winnerAddress;
