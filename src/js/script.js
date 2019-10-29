@@ -21,7 +21,7 @@ var alchemyLink="https://cheezewizards.alchemyapi.io/wizards";
 
 // Messages to show to users
 
-var BetInfo = "Waiting for the transaction to be confirmed.";
+var BetInfo = "Waiting for the transaction to be confirmed.<br>Please confirm your transaction in METAMASK if you have not doen so.";
 
 // when window is loaded calling alchemy api to get wizard details
 $(window).on("load",function() {
@@ -257,6 +257,7 @@ function resetTable(){
 function myFunction(){
 	  $("#userNotificationText").html('');
 	  $("#notificationinfo").hide();
+	  $("#noti_close").hide();
 	  // console.log("hit");
 }
 //To get the tournament status:

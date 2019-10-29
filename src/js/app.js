@@ -20,6 +20,7 @@ App = {
 					try{
 			$("#userNotificationText").html('<br><br> You should connect your wallet to access.');
 			$("#notificationinfo").show();
+			  $("#noti_close").hide();
 					await ethereum.enable();
 					// Acccounts now exposed
 					return await App.initWeb3();
@@ -94,28 +95,32 @@ App = {
 				break
 				case "2":
 				console.log('This is the deprecated Morden test network.')
-				$(".metamask-info").text("Please switch to Mainnet");
+				// $(".metamask-info").text("Please switch to Mainnet");
 
-						$("#userNotificationText").html('<br>Please switch to main net.<br>');
+						$("#userNotificationText").html('<br><br>Please switch to main net.<br>');
 						$("#notificationinfo").show();
+						  $("#noti_close").hide();
 				break
 				case "3":
 				console.log('This is the ropsten test network.')
-				$(".metamask-info").text("Please switch to Mainnet");
-						$("#userNotificationText").html('<br>Please switch to main net.<br>');
+				// $(".metamask-info").text("Please switch to Mainnet");
+						$("#userNotificationText").html('<br><br>Please switch to main net.<br>');
 						$("#notificationinfo").show();
+						  $("#noti_close").hide();
 				break
 				case "4":
 				console.log('This is the rinkeby test network.')
-				$(".metamask-info").text("Please switch to Mainnet");
-						$("#userNotificationText").html('<br>Please switch to main net.<br>');
+				// $(".metamask-info").text("Please switch to Mainnet");
+						$("#userNotificationText").html('<br><br>Please switch to main net.<br>');
 						$("#notificationinfo").show();
+						  $("#noti_close").hide();
 				break
 				default:
 				console.log('This is local network or unknown network')
-				$(".metamask-info").text("Please switch to Mainnet");
-						$("#userNotificationText").html('<br>Please switch to main net.<br>');
+				// $(".metamask-info").text("Please switch to Mainnet");
+						$("#userNotificationText").html('<br><br>Please switch to main net.<br>');
 						$("#notificationinfo").show();
+						  $("#noti_close").hide();
 			}
 
 		})
@@ -247,11 +252,12 @@ App = {
 		Snackbar.show({text: text,pos: 'bottom-center',actionText: 'OK',actionTextColor: "var(--text-c1)"});
 	},
 	placeBetOnWizard:function(playerAddress,wizardId,betAmt,wizardPower,tPWizards,wizardSOT,wizardTOB){
-	 console.log("app js join function betAmt",betAmt);
+	 // console.log("app js join function betAmt",betAmt);
 				 
 		if (typeof maininstance !== 'undefined'&& typeof web3 !== 'undefined'){
 			$("#userNotificationText").html('<br>'+BetInfo);
 			$("#notificationinfo").show();
+			  $("#noti_close").hide();
 
 				// App.snackbarCall("Please confirm your transaction");
 				 var txHash  =   maininstance.joinTournamentByBet(playerAddress,wizardId,betAmt,wizardPower,tPWizards,wizardSOT,wizardTOB,
@@ -262,6 +268,7 @@ App = {
 
 						$("#userNotificationText").html('<br><span>Transaction succeded.</span> <br><a href="https://etherscan.io/tx/'+acc.receipt.transactionHash+'" target="_blank" style="max-width="400px;">View your transaction in Etherscan </a>');
 						$("#notificationinfo").show();
+						  $("#noti_close").show();
 						// window.location.href = window.location.href;
 						App.snackbarCall("You have placed the bet successfully");
 
@@ -276,10 +283,12 @@ App = {
 						App.snackbarCall("You have rejected the last transaction.");
 						$("#notificationinfo").show();
 						 $("#userNotificationText").html('<br> <br>'+"You have rejected the last transaction.");
+						   $("#noti_close").show();
 					}else{
 						// console.log(err.message)
 						 $("#userNotificationText").html('<br> <br>'+"You have rejected last transaction.");
 						 $("#notificationinfo").show();
+						   $("#noti_close").show();
 						// App.snackbarCall("Something went wrong. Please check your wallet for detailed error");
 					}
 
@@ -293,6 +302,7 @@ App = {
 		App.init();
 		$("#userNotificationText").html('<br><br> You should connect your wallet to access.');
 		$("#notificationinfo").show();
+		  $("#noti_close").hide();
 
 		App.initAgain();
 
