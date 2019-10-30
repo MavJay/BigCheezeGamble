@@ -21,7 +21,7 @@ var alchemyLink="https://cheezewizards.alchemyapi.io/wizards";
 
 // Messages to show to users
 
-var BetInfo = "Waiting for the transaction to be confirmed.<br>Please confirm your transaction in METAMASK if you have not doen so.";
+var BetInfo = "Waiting for the transaction to be confirmed.<br>Please confirm your transaction in METAMASK if you have not done so.";
 
 // when window is loaded calling alchemy api to get wizard details
 $(window).on("load",function() {
