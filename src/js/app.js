@@ -70,17 +70,19 @@ App = {
 				// if not locked, get account
 				const account = web3.eth.accounts[0];
 				// To detect change in network and account
+				meta_address=web3.eth.accounts[0];
 
-
-			var account1 = web3.eth.accounts[0];
-			var accountInterval = setInterval(function() {
-  				if (web3.eth.accounts[0] !== account1) {
+			// var account1 = web3.eth.accounts[0];
+			// var accountInterval = setInterval(function() {
+  	// 			if (web3.eth.accounts[0] !== account1) {
 		
-					//account1 = web3.eth.accounts[0];
-					location.reload();
+			// 		//account1 = web3.eth.accounts[0];
+			// 		location.reload();
   		
-  						}
-							}, 100);
+  	// 					}
+			// 				}, 100);
+
+			web3.currentProvider.publicConfigStore.on('update', callback);
 
 				// updates UI, state, pull data
 			} else{
@@ -91,9 +93,11 @@ App = {
 		web3.version.getNetwork((err, netId) => {
 			switch (netId) {
 				case "1":
+				meta_network=netId;
 				console.log('This is mainnet')
 				break
 				case "2":
+				meta_network=netId;
 				console.log('This is the deprecated Morden test network.')
 				// $(".metamask-info").text("Please switch to Mainnet");
 
@@ -102,6 +106,7 @@ App = {
 						  $("#noti_close").hide();
 				break
 				case "3":
+				meta_network=netId;
 				console.log('This is the ropsten test network.')
 				// $(".metamask-info").text("Please switch to Mainnet");
 						$("#userNotificationText").html('<br><br>Please switch to main net.<br>');
@@ -109,13 +114,16 @@ App = {
 						  $("#noti_close").hide();
 				break
 				case "4":
+				meta_network=netId;
 				console.log('This is the rinkeby test network.')
 				// $(".metamask-info").text("Please switch to Mainnet");
 						$("#userNotificationText").html('<br><br>Please switch to main net.<br>');
 						$("#notificationinfo").show();
 						  $("#noti_close").hide();
+						  // meta_address
 				break
 				default:
+				meta_network=netId;
 				console.log('This is local network or unknown network')
 				// $(".metamask-info").text("Please switch to Mainnet");
 						$("#userNotificationText").html('<br><br>Please switch to main net.<br>');
@@ -324,8 +332,24 @@ App = {
 					});
 				},
 
+			
 
 	 };
+
+	 function callback(data){
+
+	 	//console.log("callback data ", data.networkVersion, data.selectedAddress);
+
+	 	// selectedAddress
+
+	 	// networkVersion
+
+	 	if(meta_address!==data.selectedAddress||meta_network!==data.networkVersion){
+	 		location.reload();
+	 	}
+
+
+	 }
 
 	 function setMyBets(){
 	var mybetText='<tr><th style="padding:24px">Wizard ID</th><th class="text-center" style="padding:24px">Bet Amount (in ETH)</th></tr>';

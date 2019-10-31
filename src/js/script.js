@@ -14,6 +14,11 @@ var mybetsArray=[];
 var apiToken="SWNXMHPV76I52TGX4vkmp3QkVgje5B8H78KNQthv";
 var apiEmail="muthukumaresh@vijayasekar.com";
 
+
+
+//Variables to store current network and address
+var meta_address,meta_network;
+
 //host links
 
 //var alchemyLink="https://cheezewizards-rinkeby.alchemyapi.io/wizards";
@@ -137,6 +142,8 @@ function setTable(wiztabel_height){
 
 	var datatablewrapperid= datatableid+'_wrapper';
 	$(datatablewrapperid).css("margin-top", "10px");
+	document.getElementsByClassName("dataTable")[0].getElementsByTagName("th")[1].click();
+	document.getElementsByClassName("dataTable")[0].getElementsByTagName("th")[1].click();
  $("#loader").hide();
 		
 }
